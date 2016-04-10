@@ -7,11 +7,32 @@
 
 <body>
 
-<form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="styleSelector" style="background-color: burlywood; width: 30%">
+<?php
+// define variables and set to empty values
+$userText = $textColor = $backColor = $borderType = $borderWeight = $borderRadius = $borderColor = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $userText = test_input($_POST["userText"]);
+    $textColor = test_input($_POST["textColor"]);
+    $backColor = test_input($_POST["backColor"]);
+    $borderType = test_input($_POST["borderType"]);
+    $borderWeight = test_input($_POST["borderWeight"]);
+    $borderRadius = test_input($_POST["borderRadius"]);
+    $borderColor = test_input($_POST["borderColor"]);
+}
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+?>
+
+<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="styleSelector" style="background-color: burlywood; width: 30%">
 
     <fieldset id="textStyles">
         <legend>Text Settings:</legend>
-        <textarea name="userText" id="userText" cols="20" rows="4"></textarea> <br><br>
+        <textarea name="userText" cols="20" rows="4"></textarea> <br><br>
         <input type="color" class="colorInput" name="textColor" value="#ff0000"> Text Color <br><br>
         <input type="color" class="colorInput" name="backColor" value="#80ffff"> Background color <br><br>
         <br><br>
@@ -38,37 +59,20 @@
 
 </form>
 
-<div>
-    <?php
-    // define variables and set to empty values
-    $userTextText = $textColor = $backColor = $borderType = $borderWeight = $borderRadius = $borderColor = "";
+<?php
+echo "<h2>Your Input:</h2>";
 
-    if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        $userText = test_input($_GET["userText"]);
-        $textColor = test_input($_GET["textColor"]);
-        $backColor = test_input($_GET["backColor"]);
-        $borderType = test_input($_GET["borderType"]);
-        $borderWeight = test_input($_GET["borderWeight"]);
-        $borderRadius = test_input($_GET["borderRadius"]);
-        $borderColor = test_input($_GET["borderColor"]);
-    }
-
-    function test_input($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
-
-    echo "<h2>Your Input:</h2>";
-    if($userText !=''){
-        echo "<p style='color: $textColor; background-color: $backColor; border-style: $borderType;
+echo "<p style='color: $textColor; background-color: $backColor; border-style: $borderType;
         border-width: $borderWeight px; border-radius: $borderRadius %; border-color: $borderColor' >".$userText."</p>";
-        echo "<br>";
-    };
+echo "<br>";
 
-    ?>
-</div>
+?>
+
+<p>
+    <a href="http://validator.w3.org/check?uri=referer">
+        <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Strict" height="31" width="88" />
+    </a>
+</p>
 
 </body>
 
